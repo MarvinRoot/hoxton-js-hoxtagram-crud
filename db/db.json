@@ -1,9 +1,9 @@
 {
   "images": [
     {
-      "id": 1,
+      "id": 1, 
       "title": "Coder dog",
-      "likes": 19,
+      "likes": 1,
       "image": "./assets/coder-dog.png",
       "comments": [
         {
@@ -26,7 +26,7 @@
     {
       "id": 2,
       "title": "Coder cats",
-      "likes": 13,
+      "likes": 1,
       "image": "./assets/coder-cat.jpeg",
       "comments": [
         {

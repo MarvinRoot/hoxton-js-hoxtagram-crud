@@ -21,6 +21,29 @@ function updateLikes(image){
   })
 }
 
+function deletePost(image){
+  //update state
+  state.images = state.images.filter(function(targetImage){
+    return image.id != targetImage.id
+  })
+
+  //update server
+  return fetch(`http://localhost:3000/images/${image.id}`, {
+    method: 'DELETE'
+  })
+}
+
+function deleteComment(image, comment){
+  //update state
+  image.comments = image.comments.filter(function(targetComment){
+    return comment.content != targetComment.content
+  })
+  //update server
+  return fetch(`http://localhost:3000/comments/${comment.id}`, {
+    method: 'DELETE'
+  })
+}
+
 function renderImage(image) {
   const articleEl = document.createElement('article')
   articleEl.setAttribute('class', 'image-card')
@@ -28,6 +51,13 @@ function renderImage(image) {
   const titleEl = document.createElement('h2')
   titleEl.setAttribute('class', 'title')
   titleEl.textContent = image.title
+  const deletePostBtn = document.createElement('button')
+  deletePostBtn.setAttribute('class', 'comment-button')
+  deletePostBtn.textContent = 'Delete Post'
+  deletePostBtn.addEventListener('click', function(){
+    deletePost(image)
+    render()
+  })
 
   const imgEl = document.createElement('img')
   imgEl.setAttribute('class', 'image')
@@ -57,10 +87,17 @@ function renderImage(image) {
   for (const comment of image.comments) {
     const commentLi = document.createElement('li')
     commentLi.textContent = comment.content
-    commentsList.append(commentLi)
+    const deleteCommentBtn = document.createElement('button')
+    deleteCommentBtn.setAttribute('class', 'comment-button')
+    deleteCommentBtn.textContent = 'Delete Comment'
+    deleteCommentBtn.addEventListener('click', function(){
+      deleteComment(image, comment)
+      render()
+    })
+    commentsList.append(commentLi, deleteCommentBtn)
   }
 
-  articleEl.append(titleEl, imgEl, buttonsDiv, commentsList)
+  articleEl.append(titleEl, deletePostBtn, imgEl, buttonsDiv, commentsList)
   imageContainerEl.append(articleEl)
 }
 
