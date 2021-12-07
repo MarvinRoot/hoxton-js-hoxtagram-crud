@@ -44,6 +44,19 @@ function deleteComment(image, comment){
   })
 }
 
+function addComment(image, text){
+  //update state
+  image.comments.push({content: text, imageId: image.id})
+  //update server
+  return fetch('http://localhost:3000/comments', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({content: text, imageId: image.id})
+  }).then(resp => resp.json())
+}
+
 function renderImage(image) {
   const articleEl = document.createElement('article')
   articleEl.setAttribute('class', 'image-card')
@@ -54,6 +67,7 @@ function renderImage(image) {
   const deletePostBtn = document.createElement('button')
   deletePostBtn.setAttribute('class', 'comment-button')
   deletePostBtn.textContent = 'Delete Post'
+
   deletePostBtn.addEventListener('click', function(){
     deletePost(image)
     render()
@@ -97,7 +111,28 @@ function renderImage(image) {
     commentsList.append(commentLi, deleteCommentBtn)
   }
 
-  articleEl.append(titleEl, deletePostBtn, imgEl, buttonsDiv, commentsList)
+  const commentForm = document.createElement('form')
+  commentForm.setAttribute('class', 'comment-form')
+
+  const commentInput = document.createElement('input')
+  commentInput.setAttribute('class', 'comment-input')
+  commentInput.setAttribute('type', 'text')
+  commentInput.setAttribute('placeholder', 'Add a comment')
+
+  const commentButton = document.createElement('button')
+  commentButton.setAttribute('class', 'comment-button')
+  commentButton.setAttribute('type','submit')
+  commentButton.textContent = 'Post'
+  
+  commentButton.addEventListener('click', function(event){
+    event.preventDefault()
+    addComment(image, commentInput.value)
+    render()
+  })
+
+  commentForm.append(commentInput, commentButton)
+
+  articleEl.append(titleEl, deletePostBtn, imgEl, buttonsDiv, commentsList, commentForm)
   imageContainerEl.append(articleEl)
 }
 

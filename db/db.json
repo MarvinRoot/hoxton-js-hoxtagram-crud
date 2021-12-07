@@ -1,7 +1,7 @@
 {
   "images": [
     {
-      "id": 1, 
+      "id": 1,
       "title": "Coder dog",
       "likes": 1,
       "image": "./assets/coder-dog.png",
@@ -26,7 +26,7 @@
     {
       "id": 2,
       "title": "Coder cats",
-      "likes": 1,
+      "likes": 2,
       "image": "./assets/coder-cat.jpeg",
       "comments": [
         {
@@ -67,6 +67,11 @@
       "imageId": 1,
       "content": "Hes a good boy!!",
       "id": 5
+    },
+    {
+      "content": "Why are the stickers upside down?",
+      "imageId": 1,
+      "id": 6
     }
   ]
 }
